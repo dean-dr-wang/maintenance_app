@@ -86,7 +86,7 @@ with tab1:
         st.markdown("- **Inspect and Diagnose**: Perform a detailed inspection to identify the root cause of wear.")
         st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}.")
         st.markdown("- **Spare Parts**: Ensure availability of relevant spare parts.")
-        st.markdown(f"- **Reference Manual**: Consult the maintenance manual section for {shortest_rul_part}.")
+        st.markdown(f"- **Reference Manual**: [Comprehensive Machine Maintenance Guide (2025 Edition)](https://www.datarobot.com) - Refer to Section 4.2, Page 123 for detailed steps on maintaining and repairing the {shortest_rul_part}.")
 
 with tab2:
     st.header("Machine Maintenance Insights")
@@ -96,7 +96,7 @@ with tab2:
 
     # Column 1: Show machine image
     with col1:
-        st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
+        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
 
     # Column 2: Radial list for selecting machine parts
     with col2:

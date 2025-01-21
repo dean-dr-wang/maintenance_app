@@ -5,12 +5,12 @@ import numpy as np
 
 # Mock-up maintenance insights generation
 EXPLANATIONS = {
-    "Pump": "The pump's health indicator reflects gradual wear initially, followed by accelerated degradation. This trend is represented in the graph, where the health remains stable for the first third of the timeline before dropping sharply. Regular inspection is critical to ensure optimal performance and prevent failures.",
-    "Bearing": "The bearing shows a steady decay in health with increasing vibration toward the end. The graph depicts an initial plateau in performance, followed by a steep decline, signaling the need for lubrication or replacement during the later stages.",
-    "Belts": "The belts experience minimal wear at the start but degrade rapidly after extended use. The plotted data highlights early stability, with a sudden drop in health due to tension or misalignment, emphasizing timely adjustment or replacement.",
-    "Motor": "The motor's health trend indicates stable operation initially, with a rapid decline due to overheating or electrical faults. In the graph, this is shown as a flat initial phase that transitions into a steep drop, underscoring the importance of thermal management.",
-    "Compressor": "The compressor demonstrates a slow decline early on, followed by a sharp drop. This pattern, visible in the graph, highlights potential issues with pressure or seals, necessitating proactive maintenance before the sharp degradation phase.",
-    "Valve": "The valve maintains health initially but deteriorates quickly later, often due to corrosion or mechanical fatigue. The graph illustrates a plateau in the beginning, transitioning to a rapid decline, reflecting the need for regular checks to avoid failures."
+    "Pump": "The pump's health indicator reflects gradual wear initially, followed by accelerated degradation. Regular inspection is critical to ensure optimal performance and prevent failures. The data highlights that pumps often experience a sharp decline in health due to cavitation or seal failures.",
+    "Bearing": "The bearing shows a steady decay in health with increasing vibration toward the end, signaling the need for lubrication or replacement. Data analysis suggests that overheating or misalignment could contribute to this behavior.",
+    "Belts": "The belts experience minimal wear at the start but degrade rapidly after extended use, likely due to tension or misalignment. Observations indicate that improper tensioning exacerbates this rapid deterioration.",
+    "Motor": "The motor's health trend indicates stable operation initially, with a rapid decline due to overheating or electrical faults. Data trends suggest that monitoring temperature and current can help preempt motor failures.",
+    "Compressor": "The compressor demonstrates a slow decline early on, followed by a sharp drop, highlighting potential issues with pressure or seals. The data suggests that regular maintenance of seals and valves can prolong the compressor's lifespan.",
+    "Valve": "The valve maintains health initially but deteriorates quickly later, often due to corrosion or mechanical fatigue. The figures show that monitoring fluid pressure and flow rate can provide early failure detection."
 }
 
 def generate_maintenance_insights(part):
@@ -66,34 +66,32 @@ def generate_maintenance_insights(part):
 st.title("Machine Maintenance Application")
 
 # Create tabs
-tab1, tab2 = st.tabs(["Maintenance Insights", "RUL Models"])
+tab1, tab2, tab3 = st.tabs(["Maintenance Insights", "RUL Models", "Train New Models"])
 
 with tab1:
     st.header("Machine Maintenance Insights")
-    
+
     # Create two columns
     col1, col2 = st.columns(2)
 
     # Column 1: Show machine image
     with col1:
-        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
+        st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
 
-    # Column 2: Radial list to select machine parts
+    # Column 2: Radial list for selecting machine parts
     with col2:
-        # Radial list for selecting a single part
         parts = ["Pump", "Bearing", "Belts", "Motor", "Compressor", "Valve"]
         selected_part = st.radio("Select a Machine Part", parts, key="selected_part")
         uploaded_file = st.file_uploader(f"Upload Sensor Data for {selected_part}", type=["csv", "txt"], key=f"file_{selected_part}")
         if uploaded_file:
             st.write(f"Uploaded File for {selected_part}: {uploaded_file.name}")
-    
-        # Display information for the selected part
+
     if selected_part:
         st.subheader(f"Insights for {selected_part}")
-    
+
         # Generate and display maintenance insights
         fig_path, explanation = generate_maintenance_insights(selected_part)
-        st.image(fig_path, caption=f"Generated Maintenance Trend for {selected_part}", use_container_width=True)
+        st.image(fig_path, caption=f"Generated Maintenance Trend for {selected_part}", use_column_width=True)
         st.write(explanation)
 
 with tab2:
@@ -101,26 +99,18 @@ with tab2:
 
     st.write("Select a machine part and corresponding sensor type to estimate Remaining Useful Life (RUL):")
 
+    # Dropdown hierarchy for machine part and sensor type
+    selected_part = st.selectbox("Select Machine Part", parts, key="dropdown_part")
+    sensors = ["Temperature", "Acceleration", "Vibration", "Fluid Speed", "Pressure", "Current"]
+    selected_sensor = st.selectbox("Select Sensor Type", sensors, key="dropdown_sensor")
 
-    # Create two columns
-    col1, col2 = st.columns(2)
+    st.write(f"You selected {selected_part} with {selected_sensor} sensor.")
 
-    # Column 1: Dropdown hierarchy for machine part and sensor type
-    with col1:
-        # Dropdown hierarchy for machine part and sensor type
-        selected_part = st.selectbox("Select Machine Part", parts, key="dropdown_part")
-        sensors = ["Temperature", "Acceleration", "Vibration", "Fluid Speed", "Pressure", "Current"]
-        selected_sensor = st.selectbox("Select Sensor Type", sensors, key="dropdown_sensor")
-
-    # Column 2: Radial list to select machine parts
-    with col2:
-        selected_model = st.radio(
-            "Select a machine learning model:",
-            ["Linear Regression", "Random Forest", "Neural Network", "Support Vector Machine"],
-            key="model_selection"
-        )
-
-    st.write(f"You selected {selected_part} with {selected_sensor} sensor, modeled using {selected_model}")
+    selected_model = st.radio(
+        "Select a machine learning model:",
+        ["Linear Regression", "Random Forest", "Neural Network", "Support Vector Machine"],
+        key="model_selection"
+    )
 
     # Mock-up performance chart
     if selected_model:
@@ -136,3 +126,21 @@ with tab2:
         ax.set_title("Model Performance Metrics")
 
         st.pyplot(fig)
+
+        st.write("### Explanation of Model Performance")
+        st.write(f"The {selected_model} model shows reliable performance for predicting RUL based on {selected_sensor} data. High precision indicates accurate predictions with minimal false positives, while strong recall ensures most failure cases are identified. The F1-Score balances these metrics, offering a comprehensive view of the model's effectiveness.")
+
+with tab3:
+    st.header("Train New Models with DataRobot")
+
+    st.write("Upload your dataset to train new predictive models using DataRobot's AutoML capabilities:")
+
+    # File uploader for training data
+    training_file = st.file_uploader("Upload Training Data", type=["csv", "xlsx", "txt"], key="train_file")
+
+    if training_file:
+        st.write(f"Uploaded Training File: {training_file.name}")
+        st.write("Once uploaded, the dataset will be processed using DataRobot to train new models.")
+
+    # Placeholder for future integration with DataRobot API
+    st.button("Train Models", key="train_models", help="This feature will integrate with DataRobot in a future release.")

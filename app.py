@@ -76,7 +76,7 @@ with tab1:
 
     # Column 1: Show machine image
     with col1:
-        st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
+        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
 
     # Column 2: Radial list for selecting machine parts
     with col2:
@@ -91,7 +91,7 @@ with tab1:
 
         # Generate and display maintenance insights
         fig_path, explanation = generate_maintenance_insights(selected_part)
-        st.image(fig_path, caption=f"Generated Maintenance Trend for {selected_part}", use_column_width=True)
+        st.image(fig_path, caption=f"Generated Maintenance Trend for {selected_part}", use_container_width=True)
         st.write(explanation)
 
 with tab2:

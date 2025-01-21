@@ -5,12 +5,12 @@ import numpy as np
 
 # Mock-up maintenance insights generation
 EXPLANATIONS = {
-    "Pump": "The pump's health indicator reflects gradual wear initially, followed by accelerated degradation. Regular inspection is critical to ensure optimal performance and prevent failures. The data highlights that pumps often experience a sharp decline in health due to cavitation or seal failures.",
-    "Bearing": "The bearing shows a steady decay in health with increasing vibration toward the end, signaling the need for lubrication or replacement. Data analysis suggests that overheating or misalignment could contribute to this behavior.",
-    "Belts": "The belts experience minimal wear at the start but degrade rapidly after extended use, likely due to tension or misalignment. Observations indicate that improper tensioning exacerbates this rapid deterioration.",
-    "Motor": "The motor's health trend indicates stable operation initially, with a rapid decline due to overheating or electrical faults. Data trends suggest that monitoring temperature and current can help preempt motor failures.",
-    "Compressor": "The compressor demonstrates a slow decline early on, followed by a sharp drop, highlighting potential issues with pressure or seals. The data suggests that regular maintenance of seals and valves can prolong the compressor's lifespan.",
-    "Valve": "The valve maintains health initially but deteriorates quickly later, often due to corrosion or mechanical fatigue. The figures show that monitoring fluid pressure and flow rate can provide early failure detection."
+    "Pump": "The pump's health indicator reflects gradual wear initially, followed by accelerated degradation. Regular inspection is critical to ensure optimal performance and prevent failures. The data highlights that pumps often experience a sharp decline in health due to cavitation or seal failures. Additionally, the trends suggest monitoring pressure and flow rate for early detection of issues.",
+    "Bearing": "The bearing shows a steady decay in health with increasing vibration toward the end, signaling the need for lubrication or replacement. Data analysis suggests that overheating or misalignment could contribute to this behavior. Proper alignment and regular inspections can prevent catastrophic failures.",
+    "Belts": "The belts experience minimal wear at the start but degrade rapidly after extended use, likely due to tension or misalignment. Observations indicate that improper tensioning exacerbates this rapid deterioration. Ensuring correct tension and periodic checks can extend their lifespan.",
+    "Motor": "The motor's health trend indicates stable operation initially, with a rapid decline due to overheating or electrical faults. Data trends suggest that monitoring temperature and current can help preempt motor failures. Timely maintenance can mitigate risks and prevent unplanned downtime.",
+    "Compressor": "The compressor demonstrates a slow decline early on, followed by a sharp drop, highlighting potential issues with pressure or seals. The data suggests that regular maintenance of seals and valves can prolong the compressor's lifespan. Additionally, monitoring for abnormal noise and vibrations is recommended.",
+    "Valve": "The valve maintains health initially but deteriorates quickly later, often due to corrosion or mechanical fatigue. The figures show that monitoring fluid pressure and flow rate can provide early failure detection. Regular cleaning and inspection can help avoid operational disruptions."
 }
 
 def generate_maintenance_insights(part):
@@ -66,9 +66,29 @@ def generate_maintenance_insights(part):
 st.title("Machine Maintenance Application")
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["Maintenance Insights", "RUL Models", "Train New Models"])
+tab1, tab2, tab3, tab4 = st.tabs(["Overall Maintenance", "Maintenance Insights", "RUL Models", "Train New Models"])
 
 with tab1:
+    st.header("Overall Machine Maintenance Requirements")
+
+    # Create two columns
+    col1, col2 = st.columns([1, 2])
+
+    # Column 1: Show machine image
+    with col1:
+        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
+
+    # Column 2: Highlight part with the shortest RUL and provide insights
+    with col2:
+        shortest_rul_part = random.choice(["Pump", "Bearing", "Belts", "Motor", "Compressor", "Valve"])
+        st.subheader(f"Critical Maintenance Required: {shortest_rul_part}")
+        st.write(f"The {shortest_rul_part} has the shortest Remaining Useful Life (RUL) and requires immediate attention. Suggested actions:")
+        st.markdown("- **Inspect and Diagnose**: Perform a detailed inspection to identify the root cause of wear.")
+        st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}.")
+        st.markdown("- **Spare Parts**: Ensure availability of relevant spare parts.")
+        st.markdown(f"- **Reference Manual**: Consult the maintenance manual section for {shortest_rul_part}.")
+
+with tab2:
     st.header("Machine Maintenance Insights")
 
     # Create two columns
@@ -76,7 +96,7 @@ with tab1:
 
     # Column 1: Show machine image
     with col1:
-        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
+        st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
 
     # Column 2: Radial list for selecting machine parts
     with col2:
@@ -94,7 +114,7 @@ with tab1:
         st.image(fig_path, caption=f"Generated Maintenance Trend for {selected_part}", use_container_width=True)
         st.write(explanation)
 
-with tab2:
+with tab3:
     st.header("RUL Models for Machine Parts")
 
     st.write("Select a machine part and corresponding sensor type to estimate Remaining Useful Life (RUL):")
@@ -130,7 +150,7 @@ with tab2:
         st.write("### Explanation of Model Performance")
         st.write(f"The {selected_model} model shows reliable performance for predicting RUL based on {selected_sensor} data. High precision indicates accurate predictions with minimal false positives, while strong recall ensures most failure cases are identified. The F1-Score balances these metrics, offering a comprehensive view of the model's effectiveness.")
 
-with tab3:
+with tab4:
     st.header("Train New Models with DataRobot")
 
     st.write("Upload your dataset to train new predictive models using DataRobot's AutoML capabilities:")

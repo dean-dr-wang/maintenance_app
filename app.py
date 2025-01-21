@@ -72,7 +72,7 @@ with tab1:
     st.header("Overall Machine Maintenance Requirements")
 
     # Show machine image on top
-    st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
+    st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
 
     # Highlight part with the shortest RUL and provide insights
     shortest_rul_part = random.choice(["Pump", "Bearing", "Belts", "Motor", "Compressor", "Valve"])

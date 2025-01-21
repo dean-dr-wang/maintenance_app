@@ -71,22 +71,17 @@ tab1, tab2, tab3, tab4 = st.tabs(["Overall Maintenance", "Maintenance Insights",
 with tab1:
     st.header("Overall Machine Maintenance Requirements")
 
-    # Create two columns
-    col1, col2 = st.columns([1, 2])
+    # Show machine image on top
+    st.image("machine-drawing.svg", caption="Machine Diagram", use_column_width=True)
 
-    # Column 1: Show machine image
-    with col1:
-        st.image("machine-drawing.svg", caption="Machine Diagram", use_container_width=True)
-
-    # Column 2: Highlight part with the shortest RUL and provide insights
-    with col2:
-        shortest_rul_part = random.choice(["Pump", "Bearing", "Belts", "Motor", "Compressor", "Valve"])
-        st.subheader(f"Critical Maintenance Required: {shortest_rul_part}")
-        st.write(f"The {shortest_rul_part} has the shortest Remaining Useful Life (RUL) and requires immediate attention. Suggested actions:")
-        st.markdown("- **Inspect and Diagnose**: Perform a detailed inspection to identify the root cause of wear.")
-        st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}. This may include components such as seals, bearings, gaskets, or lubricants.")
-        st.markdown(f"- **Spare Parts**: Ensure availability of relevant spare parts like {shortest_rul_part}-specific kits including pressure sensors, vibration dampers, or tension belts.")
-        st.markdown(f"- **Reference Manual**: [Comprehensive Machine Maintenance Guide (2025 Edition)](https://www.datarobot.com) - Refer to Section 4.2, Page 123 for detailed steps on maintaining and repairing the {shortest_rul_part}.")
+    # Highlight part with the shortest RUL and provide insights
+    shortest_rul_part = random.choice(["Pump", "Bearing", "Belts", "Motor", "Compressor", "Valve"])
+    st.subheader(f"Critical Maintenance Required: {shortest_rul_part}")
+    st.write(f"The {shortest_rul_part} has the shortest Remaining Useful Life (RUL) and requires immediate attention. Suggested actions:")
+    st.markdown("- **Inspect and Diagnose**: Perform a detailed inspection to identify the root cause of wear.")
+    st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}. This may include components such as seals, bearings, gaskets, or lubricants.")
+    st.markdown(f"- **Spare Parts**: Ensure availability of relevant spare parts like {shortest_rul_part}-specific kits including pressure sensors, vibration dampers, or tension belts.")
+    st.markdown(f"- **Reference Manual**: [Comprehensive Machine Maintenance Guide (2025 Edition)](https://www.datarobot.com) - Refer to Section 4.2, Page 123 for detailed steps on maintaining and repairing the {shortest_rul_part}.")
 
 with tab2:
     st.header("Machine Maintenance Insights")

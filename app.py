@@ -84,8 +84,8 @@ with tab1:
         st.subheader(f"Critical Maintenance Required: {shortest_rul_part}")
         st.write(f"The {shortest_rul_part} has the shortest Remaining Useful Life (RUL) and requires immediate attention. Suggested actions:")
         st.markdown("- **Inspect and Diagnose**: Perform a detailed inspection to identify the root cause of wear.")
-        st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}.")
-        st.markdown("- **Spare Parts**: Ensure availability of relevant spare parts.")
+        st.markdown(f"- **Repair/Replace**: Plan for repair or replacement of the {shortest_rul_part}. This may include components such as seals, bearings, gaskets, or lubricants.")
+        st.markdown(f"- **Spare Parts**: Ensure availability of relevant spare parts like {shortest_rul_part}-specific kits including pressure sensors, vibration dampers, or tension belts.")
         st.markdown(f"- **Reference Manual**: [Comprehensive Machine Maintenance Guide (2025 Edition)](https://www.datarobot.com) - Refer to Section 4.2, Page 123 for detailed steps on maintaining and repairing the {shortest_rul_part}.")
 
 with tab2:
